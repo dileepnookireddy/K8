@@ -8,6 +8,11 @@ CLI -ctr comes with ConainerD , not very user friendly , only supports limited f
 CLI -nerdctl provides a Docker like  CLI for containerD , supports docker compose , supports newest features in containerD
 CLI - crictl 
 
+https://kubernetes.io/docs/concepts/
+--------------------------------------
+
+https://kubernetes.io/docs/concepts/workloads/pods/
+---------------------------------------------------
 Pods in Kubernetes (K8s) — they are the basic building blocks of any Kubernetes application.
 
 ✅ What is a Pod?
