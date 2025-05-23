@@ -1,0 +1,108 @@
+Key concepts :
+CRI --> Container Runtime Interface
+OCI --> Open container Initiative 
+
+Docker Vs ConainerD
+-------------------
+CLI -ctr comes with ConainerD , not very user friendly , only supports limited features
+CLI -nerdctl provides a Docker like  CLI for containerD , supports docker compose , supports newest features in containerD
+CLI - crictl 
+
+Pods in Kubernetes (K8s) — they are the basic building blocks of any Kubernetes application.
+
+✅ What is a Pod?
+A Pod is the smallest deployable unit in Kubernetes.
+It represents one or more containers that:
+   --> Share the same network namespace
+   --> Share the same storage volumes
+   --> Run together on the same node
+You usually run one container per pod, but multiple containers can be used for tight coupling (like sidecars).
+
+✅ Pod Anatomy
+A pod includes:
+  -->Containers (e.g., nginx, app)
+  --> Volume(s) (optional)
+  --> Network IP (shared across containers)
+  --> Metadata (labels, annotations)
+  --> Specs (resource limits, probes, etc.)
+
+✅ Basic Pod YAML Example
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-nginx
+spec:
+  containers:
+    - name: nginx-container
+      image: nginx:latest
+      ports:
+        - containerPort: 80
+
+Deploy it:
+kubectl apply -f pod.yaml
+
+✅ Commands to Work with Pods
+
+| Action   | Command                          |
+| -------- | -------------------------------- |
+| Create   | `kubectl apply -f pod.yaml`      |
+| List     | `kubectl get pods`               |
+| Describe | `kubectl describe pod <name>`    |
+| Logs     | `kubectl logs <pod>`             |
+| Exec     | `kubectl exec -it <pod> -- bash` |
+| Delete   | `kubectl delete pod <name>`      |
+
+
+✅ Multi-Container Pod (Example)
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: multi-container-pod
+spec:
+  containers:
+    - name: app
+      image: busybox
+      command: ["sh", "-c", "while true; do echo hello; sleep 10; done"]
+    - name: sidecar
+      image: busybox
+      command: ["sh", "-c", "while true; do echo logging; sleep 10; done"]
+
+Both containers share the same IP and can communicate via localhost.
+
+✅ Pod Lifecycle Phases
+
+--> Pending – scheduled but not yet running
+--> Running – at least one container is running
+--> Succeeded – containers exited successfully
+--> Failed – containers exited with an error
+--> CrashLoopBackOff – container keeps crashing
+
+✅ Important Notes
+
+--> Pods are ephemeral — if a pod dies, it's not automatically replaced unless it's managed by a controller (like Deployment or ReplicaSet).
+--> Use Deployments or StatefulSets to manage pods in production.
+
+✅ When to Use a Pod Directly
+
+--> For simple tests, debugging
+--> Not for production apps — prefer Deployments
+
+-------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
