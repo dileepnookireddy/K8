@@ -1,0 +1,15 @@
+Key concepts :
+CRI --> Container Runtime Interface
+OCI --> Open container Initiative 
+
+Docker Vs ConainerD
+-------------------
+CLI -ctr comes with ConainerD , not very user friendly , only supports limited features
+CLI -nerdctl provides a Docker like  CLI for containerD , supports docker compose , supports newest features in containerD
+CLI - crictl 
+
+
+
+
+
+
