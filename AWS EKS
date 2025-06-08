@@ -1,0 +1,337 @@
+AWS EKS:
+-------
+Fundamentals
+Networking ,
+Storage,
+Security,
+LoadBalancers
+Compute & Scaling
+Upgrades & Maintenance
+-------------------------
+Fundamentals
+-------------
+1.what is EKS
+--> EKS clster --kubernetes cluster --  control plane (etcd,api server,scheduler) -- Data Plane (worker nodes).
+--> bridge between control plane and Data plane via ENI(Elastic Network Interface)
+-->
+An ENI (Elastic Network Interface) is a virtual network interface attached to an EC2 instance in a VPC. It includes:
+>A primary private IP
+>Optional secondary IPs
+>One or more security groups
+>A MAC address
+>A source/destination check flag
+
+In EKS (Elastic Kubernetes Service), ENIs play a critical role in networking for pods.
+
+2.Kubernets clster in AWS with EC2
+3.EKS as an integrator --common use cases
+4.Architecture    EKS control node components(OIDC endpoint , AWS cloudwatch, Config map(authentication))
+    -- Deployment options
+	--AWS cloudFormation (Infrastructure as code)/ AWS CDK (cloud development kit)
+	--Terraform  --EKS bleprints
+	-- other services -pulumi --clster API
+	-- AWS EKS cluster components (AWS EC2, VPCs, security groups , IAM roles, load balancers)
+  --Tools needed for EKS (eksdemo -kubectl-like CLI for AWS EKS) (AWS IAM authenticator for k8) (Node groups , Scaling , VPC)
+  --Kubernetes Networking --Flat Networking --3tier Architectre -ENI -Overlay Network
+  --Authentication (OIDC,Auth configMap, EKS Auth)
+ --------------------------------
+ Networking 
+ -------------------------------
+  How CNI(container network interface) works?
+ 
+ -------------------
+ EKS EFS --storage
+ EFS vs EBS
+ CSI driver --Container Storage Interface driver
+ Amazon S3 buckets , FSX , Local storage ,Amazon FSX for luster
+ 
+ --------------
+ EKS secrets:
+ Config Map 
+ Kubernetes secret
+  Kubernetes secret Options
+  Secret Storage 
+  Options for Storing secrets -Hashicorp Vault , Secret Storage , AWS secret Store
+  ---
+  1.Secrets built into k8 are not encrypted. They are base 64-encoded 
+  2. To protect secrets, put a stronger RBAC and namespace seperation and control these secrets inside as native secrets
+  3.Using something external is a more secure way of managing secrets
+  
+  🔐 AWS EKS — Secrets Management (Deep Dive)
+In Kubernetes (including EKS), managing secrets securely is crucial because you often deal with sensitive data:
+Database passwords
+API keys
+Certificates
+
+What is a Secret?
+A Kubernetes Secret is an object used to store small amounts of sensitive data (like passwords, tokens, or keys).
+
+-----------
+Load Balancers in k8 --> applciation LB ... Network LB
+Kube proxy
+External DNS
+Global LB
+-------------
+Summary:
+-------
+1.what a service is inside a k8 cluster
+2.How services interacts  with the infrastrcture 
+3.How services interacts with LB in general
+4.How the AWS LB controller can create  and manage LoadBalancers that connect to services inside a k8 cluster 
+
+-----------
+Gateway Ingress
+--------
+Ingress inside k8
+Managing Ingress with AWS LB
+Ingress controllers
+Services Mesh --Istio , Linkerd
+AWS lattice --Handles gateway API
+
+1. Gateway API and ingress controllers and how they work
+2.Other options to get traffic in and out of the cluster
+3.For those who dont want to use LB, Ingress is a great option
+
+------------------
+VPC Lattice 
+----------
+K8 Gateway API 
+Traditional Approach with ingress controllers 
+Gateway Classes and objects
+Routing options with Gateway API
+AWS Lattice for network Meshing
+Service Networks in AWS lattice
+-- Avoid lattice for small scale setups
+-- Better for complex enterprise environments
+-- challenges arise with scaling
+
+AWS lattice --Challenges
+--Heavy reliance on IAM permissions
+--Dependency on AWS services for provisioning 
+--service network creation time delay 
+
+AWS lattice --Considerations
+--Designed for advanced use cases 
+-- Suitable for large scale environments
+-- Requires seperation of concerns between teams
+-- Integration across different environments and organisations
+-- complexitiy hidden but not simple use
+
+---------------
+Compute & scaling :
+----------------
+🔷 What is AWS Fargate?
+AWS Fargate is a serverless compute engine for running containers without managing servers or EC2 instances.
+
+👉 You define container images + CPU/memory requirements → AWS runs it.
+
+✅ No need to manage:
+    EC2 Instances
+    Auto Scaling Groups
+    Patching or provisioning nodes
+
+🔷 Where Can You Use Fargate?
+   Amazon ECS (Elastic Container Service)
+   Amazon EKS (Elastic Kubernetes Service)
+   
+🔷 EKS with Fargate
+In EKS, you can deploy pods directly on Fargate, instead of EC2 nodes.
+
+You get:
+✅ Fully managed nodes
+✅ Pay only per second of compute + memory
+✅ Automatic scaling
+✅ Native Kubernetes API (pods, services, etc.)
+
+
+🔷 Key Differences: EC2 vs Fargate in EKS
+| Feature              | EC2 Worker Nodes   | Fargate (Serverless)                 |
+| -------------------- | ------------------ | ------------------------------------ |
+| Infrastructure Mgmt  | You manage EC2     | AWS manages compute                  |
+| Scaling              | Manual or auto ASG | Auto per pod                         |
+| Cost                 | Pay per EC2 hour   | Pay per pod second                   |
+| Pod density tuning   | You tune per node  | AWS handles tuning                   |
+| Kernel customization | Possible           | Not supported                        |
+| Use cases            | Stateful, complex  | Stateless, microservices, batch jobs |
+
+
+🔷 Fargate Limitations (Important!)
+
+Limited instance sizes (you can specify CPU + memory, but no full node control)
+No support for:
+  DaemonSets (no background system pods)
+  Privileged containers
+  Custom CNI plugins (must use AWS VPC CNI)
+  GPU workloads
+  StatefulSets with local persistent volumes
+
+🔷 Use Cases
+✅ Microservices / REST APIs
+✅ Event-driven / Batch jobs
+✅ Test environments
+✅ CI/CD pipeline workloads
+✅ Highly elastic workloads
+✅ "Throwaway" environments — no infra to manage
+
+🔷 Summary:
+| Pros                                      | Cons                                    |
+| ----------------------------------------- | --------------------------------------- |
+| No infra to manage                        | No DaemonSets                           |
+| Granular cost model                       | Less kernel customization               |
+| Auto-scaling                              | Limited storage options                 |
+| Secure isolation                          | Less control over underlying node types |
+| Great for microservices & burst workloads | Not suited for all legacy workloads     |
+
+🚀 Final takeaway:
+👉 EKS + EC2 → best for general purpose, mixed workloads
+👉 EKS + Fargate → great for stateless, scalable, fast deployment
+
+-----------------------------------------------------------------
+
+EKS node groups:
+--------------
+Karpenter:  -> Autoscaling
+-------------
+🔷 What is Karpenter?
+👉 Karpenter is an open-source, flexible, high-performance Kubernetes node autoscaler developed by AWS.
+👉 It can provision EC2 instances on-demand to handle changing cluster workloads.
+
+👉 It works with:
+✅ Amazon EKS
+✅ Any vanilla Kubernetes cluster on AWS
+
+🔷 How is Karpenter different from Cluster Autoscaler?
+| Feature                | Cluster Autoscaler (CA) | Karpenter                                 |
+| ---------------------- | ----------------------- | ----------------------------------------- |
+| Scaling granularity    | Node group level        | Per pod / fine-grained                    |
+| Launch time            | Slow                    | Fast (direct EC2 API)                     |
+| Instance flexibility   | Static node groups      | Dynamic instance types, spot/ondemand mix |
+| Pod topology awareness | No                      | Yes                                       |
+| Custom instance shapes | No                      | Yes                                       |
+| DaemonSet support      | Yes                     | Yes                                       |
+
+👉 In short — Karpenter is smarter, faster, more flexible than the older Cluster Autoscaler.
+
+🔷 Why Use Karpenter?
+✅ Handles bursty / spiky workloads
+✅ Provisions exact right instance types (cost-efficient)
+✅ Quickly scales down unused nodes
+✅ Automatically mixes:
+   On-Demand instances
+   Spot instances
+✅ Reduces cloud costs compared to over-provisioning with static EC2 node groups.
+
+🔷 How Does Karpenter Work?
+Flow:
+------
+Kubernetes Scheduler
+   ↓
+Pending Pods detected
+   ↓
+Karpenter Controller sees pending pods
+   ↓
+Karpenter queries EC2 API → Launches optimal instance
+   ↓
+EC2 instance joins cluster → Pods scheduled
+
+
+👉 Karpenter directly calls EC2 APIs — no need to manage:
+✅ Node Groups
+✅ Launch Templates
+✅ ASGs
+
+🔷 Architecture
+EKS Cluster
+├── Control Plane
+├── Karpenter Controller (in cluster)
+├── Karpenter Provisioners (YAML configs)
+└── EC2 API integration (via IAM role)
+
+
+🔷 Real Use Case Example
+👉 You run an EKS cluster that powers:
+   API workloads with autoscaling
+   Batch jobs with sudden CPU spikes
+   Event-driven architecture (Kafka consumers)
+👉 Without Karpenter → hard to tune EC2 Auto Scaling Groups.
+👉 With Karpenter → cluster auto-adjusts capacity perfectly to the workload.
+
+🔷 Limitations / Considerations
+⚠️ Currently works only on AWS (tightly integrated with EC2 API)
+⚠️ Adds one more component to manage in your cluster
+⚠️ Requires careful IAM setup for security
+
+🔷 Karpenter vs Cluster Autoscaler (Summary)
+| When to use Karpenter       | When to use Cluster Autoscaler |
+| --------------------------- | ------------------------------ |
+| Dynamic workloads           | Stable workloads               |
+| Flexible instance selection | Static node groups             |
+| Cost optimization w/ Spot   | Managed node groups only       |
+| Low latency scaling         | Basic scaling OK               |
+
+🔷 Final Takeaways
+👉 Karpenter = modern autoscaling layer for Kubernetes/EKS
+👉 Gives you cloud efficiency and cost savings
+👉 Replaces the need for rigid EC2 Auto Scaling Groups
+👉 Increasingly used in production Cloud Native architectures
+
+🚀 For Your Career (Cloud Engineer / Kubernetes Admin / Platform Engineer):
+Mastering Karpenter is a strong plus:
+✅ Cost optimization
+✅ Autoscaling design
+✅ Spot instance utilization
+✅ Hybrid workloads handling
+
+Next Options:
+✅ I can give you:
+1️⃣ Karpenter Hands-on Lab Guide (step by step EKS setup)
+2️⃣ Karpenter vs CA vs Fargate comparison sheet
+3️⃣ Karpenter Interview Q&A PDF
+4️⃣ Terraform template for deploying Karpenter with EKS
+------------------------------
+
+Redundancy and Resilence  --cluster access , IRSA -IAM role for service , Pod Identity , Security Grops for POD.
+-------------------------
+ 
+  ----------
+
+Upgrades & maintenance 
+
+---
+EKS monitoing :
+-------------
+AWS Cloud watch (by default)
+Cloud Watch log agents 
+AWS Distro for open  Telemetry (ADOT)
+AWS X-ray service 
+Amazon managed Prometheus and Grafana 
+
+--------
+Upgrading EKS clusters --14months upgrading cycle
+Upgrade Insights
+Extended support 12 months .. in total 26months
+EKS upgrades 
+3releases evey year 
+types -- In-place cluster upgrade , Ble-Green cluster upgrade 
+
+
+---
+Summary:
+---
+1. Node upgrades
+2.How control plane gets upgraded 
+3. Upgrading different types of compute in EKS cluster
+4.Add-ons and calling the API
+5. Cluster Insights and Kubent 
+6. Blue-Green cluster upgrades 
+------
+
+EKS Add-ons
+-------
+
+
+
+
+
+
+
