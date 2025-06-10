@@ -185,4 +185,13 @@ Rotate TLS certificates
 Add/remove nodes to/from the cluster
 
 ------------------------------------------------------------------
-
+🚀 Summary Table (Focus Areas by Weight):
+-----------------------------------------------------------------
+| Section                              | Weight (%) | Focus Level   |
+| ------------------------------------ | ---------- | ------------- |
+| Cluster Architecture & Configuration | 10%        | Medium        |
+| Workloads & Scheduling               | 15%        | High          |
+| Services & Networking                | 20%        | Very High     |
+| Storage                              | 10%        | High          |
+| Troubleshooting                      | 30%        | **Very High** |
+| Cluster Maintenance                  | 10%        | Medium        |
