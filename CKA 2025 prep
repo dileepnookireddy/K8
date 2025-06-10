@@ -88,3 +88,101 @@ Next options for you:
 ✅ CKA Interview Q&A sheet
 
 --------------------
+🎓 CKA Syllabus (Latest - 2024/2025)
+1️⃣ Cluster Architecture, Installation & Configuration (10%)
+✅ Install Kubernetes using kubeadm
+✅ Configure certificates
+✅ Manage kubeconfig
+✅ Understand systemd services for control plane and worker nodes
+✅ Upgrade a Kubernetes cluster
+✅ Backup and restore etcd
+
+Practice Labs:
+--------------
+Deploy a cluster using kubeadm
+Backup and restore etcd
+Configure kubeconfig for multiple users
+Perform a minor version upgrade of Kubernetes cluster
+
+2️⃣ Workloads & Scheduling (15%)
+✅ Deployments — create, update, rollback
+✅ ConfigMaps and Secrets
+✅ Multi-container Pods (init containers, sidecars)
+✅ Probes: readiness/liveness
+✅ Pod scheduling — taints, tolerations, affinity, anti-affinity
+✅ DaemonSets
+✅ Static Pods
+✅ Manually scheduled Pods
+
+Practice Labs:
+-------------
+Create multi-container Pods with init/sidecars
+Add probes to an existing Deployment
+Deploy a DaemonSet and verify its behavior
+Create a Pod with node affinity
+Create a Static Pod
+
+3️⃣ Services & Networking (20%)
+✅ Cluster Networking basics
+✅ Services: ClusterIP, NodePort, LoadBalancer
+✅ Ingress Controller & Ingress Resources
+✅ CoreDNS configuration
+✅ Network Policies
+
+Practice Labs:
+-------------
+Deploy an Ingress Controller + create Ingress Resource
+Create NetworkPolicies to restrict traffic
+Configure a CoreDNS ConfigMap
+Deploy and expose a simple app using all 3 service types
+Troubleshoot Service networking issues
+
+4️⃣ Storage (10%)
+✅ PersistentVolumes (PV) & PersistentVolumeClaims (PVC)
+✅ StorageClasses
+✅ Dynamic provisioning
+✅ Volume modes: block, filesystem
+✅ StatefulSets with persistent storage
+
+Practice Labs:
+-------------
+Create and test PVC & PV
+Configure StorageClass & test dynamic provisioning
+Deploy a StatefulSet with persistent volume
+Resize Persistent Volume (if storage backend supports it)
+
+5️⃣ Troubleshooting (30%) → Most Important Section
+✅ Troubleshoot application failures
+✅ Troubleshoot cluster component failures
+✅ Troubleshoot networking issues
+✅ Analyze pod & node logs
+✅ Resource usage monitoring
+✅ Identify issues causing Pods to remain Pending or CrashLoopBackOff
+✅ Identify network connectivity issues
+✅ Troubleshoot node status (NodeNotReady, cordoned, tainted, etc.)
+
+Practice Labs:
+--------------
+Fix Pods in CrashLoopBackOff
+Fix Pods stuck in Pending
+Debug control plane component failures
+Analyze pod logs and events
+Use kubectl top to monitor resource usage
+Diagnose network issues between Pods/Services
+
+6️⃣ Cluster Maintenance (10%)
+✅ OS upgrade & Kubernetes version upgrade
+✅ Cordon/uncordon/drain nodes
+✅ Backup and restore cluster data (etcd)
+✅ Manage certificates expiration
+✅ Manage cluster nodes
+
+Practice Labs:
+-------------
+Cordon/drain a node for maintenance
+Upgrade Kubernetes using kubeadm upgrade
+Rotate TLS certificates
+Add/remove nodes to/from the cluster
+
+------------------------------------------------------------------
+
