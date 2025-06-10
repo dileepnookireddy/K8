@@ -195,3 +195,137 @@ Add/remove nodes to/from the cluster
 | Storage                              | 10%        | High          |
 | Troubleshooting                      | 30%        | **Very High** |
 | Cluster Maintenance                  | 10%        | Medium        |
+
+🚀 Top CKA Practice Labs (Highly Recommended)
+✅ killer.sh CKA Simulator → closest to real exam
+✅ KodeKloud CKA Labs → Excellent interactive labs
+✅ Civo Academy CKA free course → https://academy.civo.com/cka
+✅ Play with Kubernetes → https://labs.play-with-k8s.com
+✅ Katacoda Kubernetes scenarios → https://katacoda.com/courses/kubernetes (some modules still work)
+
+🚀 CKA Success Tips:
+✅ Do NOT memorize → Practice hands-on
+✅ Use official docs → https://kubernetes.io/docs
+✅ Master kubectl → be FAST and efficient
+✅ Practice Troubleshooting a LOT → 30% weight!
+✅ Practice YAML authoring → no copy-paste blindly
+✅ Stay calm — exam is time-pressured, but manageable with practice
+
+
+🚀 CKA Exam Day Cheat Sheet:
+
+kubectl basics:
+--------------
+kubectl get pods -n <namespace>
+kubectl describe pod <pod-name> -n <namespace>
+kubectl logs <pod-name> -n <namespace>
+kubectl exec -it <pod-name> -- /bin/sh
+kubectl apply -f <file.yaml>
+kubectl delete -f <file.yaml>
+kubectl edit pod <pod-name>
+kubectl top node
+kubectl top pod --all-namespaces
+
+📝 Common YAML:
+---------------
+Pod:
+----
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mypod
+spec:
+  containers:
+  - name: mycontainer
+    image: nginx
+
+-----------
+Deployment:
+----------
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mydeployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: myapp
+  template:
+    metadata:
+      labels:
+        app: myapp
+    spec:
+      containers:
+      - name: mycontainer
+        image: nginx
+
+----------
+Service:
+---------
+apiVersion: v1
+kind: Service
+metadata:
+  name: myservice
+spec:
+  selector:
+    app: myapp
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+  type: NodePort
+
+--------------
+Ingress (basic):
+--------------
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: myingress
+spec:
+  rules:
+  - host: myapp.example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: myservice
+            port:
+              number: 80
+------------------
+⚙️ Node Management:
+------------------
+kubectl cordon <node-name>
+kubectl drain <node-name> --ignore-daemonsets
+kubectl uncordon <node-name>
+---------
+🔒 RBAC:
+---------
+RoleBinding:
+-----------
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: read-pods
+  namespace: default
+subjects:
+- kind: User
+  name: jane
+roleRef:
+  kind: Role
+  name: pod-reader
+  apiGroup: rbac.authorization.k8s.io
+
+----------------------
+Final Tips 🚀
+-----------
+✅ Practice with kubectl until it is second nature
+✅ Learn how to find YAML examples fast in Kubernetes docs
+✅ Don’t get stuck — flag tough questions and return later
+✅ Use /tmp directory for YAML editing during exam
+✅ Save your YAML often (kubectl apply -f /tmp/my.yaml)
+✅ Troubleshooting section carries highest weight → practice more
+-------------------------------
