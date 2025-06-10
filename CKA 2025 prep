@@ -1,0 +1,90 @@
+🎓 CKA Exam Pattern — 2024 / 2025
+👉 CKA is a practical, hands-on exam — no multiple choice questions!
+👉 You work on a live Kubernetes cluster.
+👉 You must solve real-world problems using kubectl, YAML files, and other Kubernetes tools.
+1 Exam Format:
+Parameter	Value
+Exam mode	Online, proctored
+Exam duration	2 hours
+Total questions	15-20 tasks
+Passing score	66%
+Exam environment	Linux terminal + Kubernetes cluster + documentation access
+
+2. Allowed resources:
+✅ You are allowed to access:
+•	The official Kubernetes documentation → https://kubernetes.io/docs
+•	You can open multiple doc pages in your browser.
+•	No other tabs allowed (you’ll be monitored).
+3.Question types:
+
+✅ Create/modify Kubernetes objects:
+•	Pods
+•	Deployments
+•	Services
+•	ConfigMaps, Secrets
+•	Network Policies
+•	Persistent Volumes, Claims
+✅ Troubleshooting:
+•	Find broken resources
+•	Fix them using kubectl or YAML manifest	
+✅ Cluster management:
+•	Manage control plane components
+•	Create/upgrade clusters (kubeadm)
+•	Manage certificates
+✅ Security:
+•	RBAC
+•	Network Policies
+✅ Logging & Monitoring:
+•	View logs
+•	Troubleshoot pods/nodes
+✅ Scheduling:
+•	Taints, tolerations
+•	Node affinity
+✅ Multi-container pods:
+•	Sidecars, init containers
+✅ Storage:
+•	Persistent volumes
+•	StatefulSets
+✅ Networking:
+•	Services
+•	Ingress
+⌛ 4 .Time Management Tips
+✅ Some questions are worth more points than others → focus on high value questions first.
+✅ You can flag questions and return to them.
+✅ You can run kubectl freely and use YAML files in /tmp directory.
+
+5. Scoring
+•	Some tasks are auto-graded (if output matches expected result).
+•	Some tasks are manually reviewed by graders.
+•	Each question has a weight % → total score adds up to 100%.
+✅ You must get 66% or more to pass.
+6.Exam environment
+✅ You get:
+•	1 or more Kubernetes clusters
+•	Each task specifies which cluster/context to use
+•	kubectl pre-installed
+•	Editor (vim/nano) pre-installed
+✅ You can copy/paste YAML from docs, but you must modify it correctly.
+Final Summary
+✅ Practical exam — 100% hands-on
+✅ Time: 2 hours
+✅ 15–20 tasks → Creating, troubleshooting, configuring Kubernetes resources
+✅ Passing: 66%
+✅ Docs allowed: yes (https://kubernetes.io/docs)
+Career Tip
+👉 CKA is a highly respected cert for:
+•	Kubernetes Admins
+•	Platform Engineers
+•	DevOps Engineers
+•	Cloud Engineers
+👉 Many employers now require or strongly prefer CKA for Kubernetes-focused roles!
+________________________________________
+
+Next options for you:
+✅ Full CKA Syllabus & Breakdown
+✅ Top CKA Practice Labs (very useful)
+✅ CKA Exam Tips & Tricks
+✅ CKA 30-day Study Plan
+✅ CKA Interview Q&A sheet
+
+--------------------
