@@ -14,4 +14,43 @@ Configure kubeconfig for multiple users
 Perform a minor version upgrade of Kubernetes cluster
 
 ----------------------------
+CKA: Cluster Architecture, Installation & Configuration – Cheat Sheet & Practice Workbook
+---------------------------
+Install Kubernetes using kubeadm
+•	Use kubeadm to bootstrap a Kubernetes cluster.
+•	Install Docker/CRI-O/Containerd and kubeadm, kubelet, kubectl.
+•	Initialize master: kubeadm init --pod-network-cidr=<CIDR>
+•	Join worker: kubeadm join <master-ip>:<port> --token <token> --discovery-token-ca-cert-hash sha256:<hash>
+
+Configure Certificates
+•	Certificates stored in /etc/kubernetes/pki/
+•	kubeadm auto-generates certs using cfssl under the hood.
+•	Use kubeadm alpha certs renew to renew expired certs.
+•	Backup certs before any operation involving cert changes.
+
+Manage kubeconfig
+•	kubeconfig file typically at ~/.kube/config
+•	Generated automatically on master with kubeadm init.
+•	Use kubectl config get-contexts / use-context to manage multiple clusters.
+•	Can export admin.conf from master to access cluster from another system.
+
+Systemd Services for Control Plane & Worker Nodes
+•	Control plane components: kube-apiserver, kube-controller-manager, kube-scheduler – managed via static pods.
+•	Worker services: kubelet, container runtime, kube-proxy.
+•	Use systemctl to check status: systemctl status kubelet
+•	Static pod manifests: /etc/kubernetes/manifests/
+
+Upgrade a Kubernetes Cluster
+•	Upgrade control plane node using: kubeadm upgrade plan && kubeadm upgrade apply <version>
+•	Upgrade kubelet/kubectl via apt/yum and restart services.
+•	Upgrade worker nodes in rolling fashion.
+•	Ensure etcd and backups are safe before upgrade.
+
+Backup and Restore etcd
+•	Use etcdctl with certs to backup: etcdctl snapshot save backup.db
+•	Restore using: etcdctl snapshot restore backup.db
+•	etcdctl requires --cert, --key, and --cacert options with endpoint.
+•	Backups should be automated via cron or backup solutions.
+
+--------------------------------------------
 
