@@ -5,3 +5,33 @@
 ✅ CoreDNS configuration
 ✅ Network Policies
 ------------------------------------------------
+CKA: Services & Networking – Cheat Sheet & Practice Workbook
+-----------------------------------------------
+Cluster Networking Basics
+•	Each Pod gets a unique IP address.
+•	Pods can communicate directly without NAT due to flat network structure.
+•	Networking handled by CNI plugins (Calico, Flannel, Cilium, etc.).
+•	Practice: Use busybox pod to test inter-pod communication via ping.
+
+Kubernetes Services
+•	ClusterIP: Default, internal access only.
+•	NodePort: Exposes service on all nodes using a static port.
+•	LoadBalancer: External access (cloud provider required).
+•	Practice: kubectl expose pod nginx --port=80 --type=NodePort
+
+Ingress Controller & Ingress Resources
+•	Ingress manages external HTTP/S traffic routing to services.
+•	Ingress Controller required (e.g., nginx, traefik).
+•	Use Ingress YAML to define routing rules based on host/path.
+•	Practice: Deploy ingress controller, define ingress for multiple services.
+
+CoreDNS Configuration
+•	CoreDNS is the default cluster DNS.
+•	Configured via ConfigMap in kube-system namespace.
+•	Can modify stub domains, upstream nameservers, etc.
+•	Practice: Use nslookup inside a pod to test DNS resolution.
+
+Network Policies
+•	Control traffic to/from pods using labels and selectors.
+•	Requires CNI plugin support (e.g., Calico).
+•	Practice: Create deny-all policy, then allow specific traffic.
