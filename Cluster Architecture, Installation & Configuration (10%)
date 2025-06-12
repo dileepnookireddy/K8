@@ -1,0 +1,17 @@
+1️⃣ Cluster Architecture, Installation & Configuration (10%)
+✅ Install Kubernetes using kubeadm
+✅ Configure certificates
+✅ Manage kubeconfig
+✅ Understand systemd services for control plane and worker nodes
+✅ Upgrade a Kubernetes cluster
+✅ Backup and restore etcd
+
+Practice Labs:
+--------------
+Deploy a cluster using kubeadm
+Backup and restore etcd
+Configure kubeconfig for multiple users
+Perform a minor version upgrade of Kubernetes cluster
+
+----------------------------
+
