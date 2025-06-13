@@ -77,5 +77,7 @@ aws ecs run-task --cluster my-cluster --launch-type FARGATE --task-definition my
 
 --------------------------------------------------------------------------------------------
 
+A service ensuers that a certain number of tasks are running at all times.
+
 
 
