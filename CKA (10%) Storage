@@ -179,6 +179,7 @@ Container Storage Ingterface
 Container Runtime Interface (CRI)
 Container Network Interface (CNI)
 Volumes in K8  --Persistent Volumes , Persistent Volumes Claims(PVC)
+Storage Class
 
 ------------------------------------------------------------------------
 Using PVC in pods:
