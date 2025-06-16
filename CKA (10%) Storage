@@ -1,0 +1,174 @@
+4️⃣ Storage (10%)
+✅ PersistentVolumes (PV) & PersistentVolumeClaims (PVC)
+✅ StorageClasses
+✅ Dynamic provisioning
+✅ Volume modes: block, filesystem
+✅ StatefulSets with persistent storage
+
+Practice Labs:
+-------------
+Create and test PVC & PV
+Configure StorageClass & test dynamic provisioning
+Deploy a StatefulSet with persistent volume
+Resize Persistent Volume (if storage backend supports it)
+
+-----------------------------------------------------------------
+✅ 1. PersistentVolumes (PV) & PersistentVolumeClaims (PVC)
+These are Kubernetes objects used to manage storage in a declarative way.
+PV: A piece of storage in the cluster.
+PVC: A request for storage by a user.
+
+🧪 Practice:
+Create a PV and bind it with a PVC.
+Mount the PVC in a pod and write/read a file.
+
+✅ 2. StorageClasses
+Used for dynamic provisioning of volumes.
+Allows specifying different types of storage (e.g., fast SSD, standard HDD).
+Linked to provisioners like AWS EBS, GCE PD, NFS, etc.
+
+🧪 Practice:
+Create a StorageClass.
+Deploy a PVC that uses it with storageClassName.
+
+✅ 3. Dynamic Provisioning
+Kubernetes automatically provisions PVs based on the PVC and associated StorageClass.
+
+🧪 Practice:
+Create a PVC that triggers dynamic provisioning (no PV needed in advance).
+
+✅ 4. Volume Modes: block, filesystem
+Kubernetes supports:
+Filesystem: default mode (used like a mounted directory).
+Block: raw block device usage.
+
+🧪 Practice:
+Create a PVC with volumeMode: Block and attach to a pod (for advanced testing).
+
+✅ 5. StatefulSets with Persistent Storage
+Used for applications requiring stable identities and storage (like databases).
+Each pod in a StatefulSet gets its own PVC.
+Useful for apps like MySQL, Cassandra, etc.
+
+🧪 Practice:
+Deploy a StatefulSet (e.g., nginx or MySQL) with volumeClaimTemplates.
+Ensure each pod has its unique persistent volume.
+
+💡 Tip for CKA:
+You’ll likely get questions around creating PVCs, using dynamic provisioning, and troubleshooting StatefulSets with storage.
+
+-------------------------------------------------------
+🧪 Practice Platforms:
+| Platform                                                                       | Practice Lab                         |
+| ------------------------------------------------------------------------------ | ------------------------------------ |
+| [Killer.sh](https://killer.sh)                                                 | Official CKA simulator               |
+| [KodeKloud](https://kodekloud.com/courses/certified-kubernetes-administrator/) | CKA Labs                             |
+| [Katacoda](https://www.katacoda.com)                                           | Search: Kubernetes Persistent Volume |
+| [Play with Kubernetes](https://labs.play-with-k8s.com)                         | Free online k8s playground           |
+-----------------------------------------------------------
+
+🔧 1. PersistentVolume (PV) and PersistentVolumeClaim (PVC)
+📄 Example: pv-pvc.yaml
+# PersistentVolume
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: my-pv
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/data"
+---
+# PersistentVolumeClaim
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: my-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+
+🧪 Practice Lab:
+Apply the above YAMLs.
+Mount the PVC in a Pod and write a test file:
+apiVersion: v1
+kind: Pod
+metadata:
+  name: test-pv
+spec:
+  containers:
+  - name: busybox
+    image: busybox
+    command: ["sleep", "3600"]
+    volumeMounts:
+    - mountPath: "/mnt/storage"
+      name: storage
+  volumes:
+  - name: storage
+    persistentVolumeClaim:
+      claimName: my-pvc
+
+⚙️ 2. StorageClass & Dynamic Provisioning
+📄 Example: storageclass.yaml
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: standard
+provisioner: kubernetes.io/no-provisioner  # For local testing
+volumeBindingMode: WaitForFirstConsumer
+
+For cloud (EKS, GKE, AKS), the provisioner would be different:
+AWS: kubernetes.io/aws-ebs
+GKE: pd.csi.storage.gke.io
+
+📄 Dynamic PVC Using StorageClass:
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: dynamic-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: standard
+  resources:
+    requests:
+      storage: 1Gi
+
+🧱 3. StatefulSet with Persistent Storage
+📄 Example: statefulset.yaml
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: web
+spec:
+  serviceName: "web"
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+        volumeMounts:
+        - name: www
+          mountPath: /usr/share/nginx/html
+  volumeClaimTemplates:
+  - metadata:
+      name: www
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      resources:
+        requests:
+          storage: 1Gi
+
