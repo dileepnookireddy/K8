@@ -1,2 +1,62 @@
 GitHub Actions is a CI/CD (Continuous Integration/Continuous Deployment) platform built into GitHub. It allows you to automate workflows like building, testing, and deploying code directly from your GitHub repository.
 
+✅ Key Concepts:
+| Concept      | Description                                                 |
+| ------------ | ----------------------------------------------------------- |
+| **Workflow** | Automated process defined in `.github/workflows/*.yml` file |
+| **Job**      | A set of steps executed on the same runner                  |
+| **Step**     | A command or action that runs as part of a job              |
+| **Runner**   | Machine that runs your jobs (GitHub-hosted or self-hosted)  |
+| **Action**   | A reusable unit of code (like a function or plugin)         |
+
+📁 Folder Structure Example:
+your-repo/
+└── .github/
+    └── workflows/
+        └── ci.yml
+
+
+🔧 Sample GitHub Actions Workflow (CI example):
+# .github/workflows/ci.yml
+name: CI Workflow
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      run: |
+        pip install -r requirements.txt
+
+    - name: Run tests
+      run: |
+        pytest
+
+🚀 Use Cases
+Build & Test code on push or PR
+Deploy to servers/clouds (AWS, Azure, GCP, K8s)
+Lint, Format, Scan your code
+Create Releases, publish to PyPI/NPM/Docker Hub
+
+📚 Example Marketplace Actions
+You can find reusable actions here: GitHub Marketplace (https://github.com/marketplace?type=actions):
+  actions/checkout – check out your code
+  docker/build-push-action – build & push Docker images
+  actions/upload-artifact – upload test logs/reports
+
+
+
