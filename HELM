@@ -1,0 +1,47 @@
+Helm is a package manager for Kubernetes — think of it as the “apt” or “yum” for Kubernetes. It helps you manage Kubernetes applications with simple commands and 
+versioned charts (packages of pre-configured Kubernetes resources).
+
+🔧 What Helm Does:
+-------------------
+Installs applications in Kubernetes using Helm charts.
+Manages updates and rollbacks for deployments.
+Simplifies complex deployments with reusable templates.
+Maintains version control for your app deployments.
+
+🔹 Key Concepts:
+----------------
+| Term           | Description                                                       |
+| -------------- | ----------------------------------------------------------------- |
+| **Chart**      | A Helm package that contains Kubernetes manifests and templates.  |
+| **Release**    | A running instance of a chart deployed into a Kubernetes cluster. |
+| **Repository** | A place where charts are stored and shared (e.g., ArtifactHub).   |
+
+⚙️ Common Helm Commands:
+-----------------------
+| Task                       | Command                                   |
+| -------------------------- | ----------------------------------------- |
+| Add a repo                 | `helm repo add <name> <url>`              |
+| Update repos               | `helm repo update`                        |
+| Search charts              | `helm search repo <name>`                 |
+| Install a chart            | `helm install <release-name> <chart>`     |
+| Upgrade a release          | `helm upgrade <release-name> <chart>`     |
+| Roll back a release        | `helm rollback <release-name> [revision]` |
+| List releases              | `helm list`                               |
+| Uninstall a release        | `helm uninstall <release-name>`           |
+| Template rendering (debug) | `helm template <chart>`                   |
+
+🧠 Helm Chart Structure:
+------------------------
+mychart/
+├── Chart.yaml        # Chart metadata
+├── values.yaml       # Default configuration
+├── templates/        # Kubernetes manifest templates
+│   ├── deployment.yaml
+│   └── service.yaml
+
+💡 Use Cases:
+-------------
+Deploying NGINX, PostgreSQL, Prometheus, Grafana, etc.
+Automating app releases via GitOps or CI/CD.
+Creating custom charts for internal microservices.
+
