@@ -78,6 +78,47 @@ Autoscaling adjusts resources up during high traffic and down when it normalizes
 2.Vertical Pod Atoscaler
 3.Cluster Proportional Autoscaler
 4.K8s Event driven Autoscaling (KEDA) scaling
+-----------------------------------------------------------
+Why do we need autoscaling -->  for COST SAVINGS
+1. Improved Application availbility 
+2.Efficient resource utilisation 
+3.Elasticity 
+4.Fault tolerance and recovery
+5. Seemless load management 
+6. Simplified Management 
+----------------------------------
+Cluster Scaling --> (Scaling nodes, Clusgter Availability , Cluster Capacity) --> Ensures the infrastructure is up to the task 
+Pod Scaling --> (Scaling pod/replicas , Application Availability, Application Efficiency) --> Guarantess the application is up to the task
+
+Both ensures the k8s cluster and applciations have the required capacity.
+
+--------------------------
+
+Manual HPA : Manual Scaling of a Kubernetes Deployment
+
+---------------------
+HPA Architecture 
+HPA operation flow : Metrics Retrieval, Evaluation , Scaling calculation, Update deployement.
+HPA considerations: Metrics server, Metrics Evaluation (custom, external), Scalign behavior
+----------------------
+
+HPA custom metrics:
+-------------------
+This flexibility enables scaling based on the applciation's performance indicators.
+Request rates, Queue lengths, Latency
+
+HPA custom metrics components: 
+Application exposes custom data, Metrics collection agent, Metrics adapter, K8s API,Application HPA
+
+HPA custom metrics considerations: 
+Metrics server limitation, Adapter Configrartions , Monitoring Systems 
+
+
+
+
+
+
+
 
 
 
