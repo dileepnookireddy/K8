@@ -1,5 +1,86 @@
+In the Certified Kubernetes Administrator (CKA) exam, autoscaling is an important concept under Cluster Maintenance and Workloads & Scheduling. 
+You’re expected to understand how to configure Horizontal Pod Autoscalers (HPA) and Cluster Autoscalers, and possibly troubleshoot them.
+
 Horizontal Pod Autoscaling (HPA)
 Vertical Pod Autoscaling (VPA)
+
+🔄 1. Horizontal Pod Autoscaler (HPA)
+HPA automatically scales the number of pods in a deployment, replicaset, or statefulset based on observed CPU/memory usage or custom metrics.
+
+✅ Key Features:
+  Scales pods, not nodes.
+  Uses metrics-server for metrics (CPU, memory).
+  Common for stateless apps like web servers, APIs.
+
+🛠️ Prerequisites:
+kubectl top pods        # Should return CPU/Memory info (metrics-server must be installed)
+
+🔧 Create HPA (Example):
+kubectl autoscale deployment myapp --cpu-percent=50 --min=2 --max=5
+
+Or use a YAML definition:
+------------------------
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: myapp-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: myapp
+  minReplicas: 2
+  maxReplicas: 5
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 50
+
+ Check Status:
+------------
+kubectl get hpa
+kubectl describe hpa myapp-hpa
+
+🧱 2. Cluster Autoscaler
+This adds or removes worker nodes based on the pending pods that cannot be scheduled due to resource constraints.
+
+✅ Key Features:
+  Scales nodes, not pods.
+  Usually configured by cloud providers like GKE, EKS, AKS, etc.
+  Not likely to be tested in full detail in bare-metal exam environments unless specified.
+
+⚠️ NOTE:
+In the CKA exam, HPA is more common and testable than Cluster Autoscaler unless the environment explicitly supports node autoscaling.
+
+⚙️ Quick Tips for CKA Exam
+   Always check if metrics-server is installed (kubectl top pods must work).
+   Know how to create, view, and modify HPA objects.
+You might be asked to:
+  Deploy an HPA with certain thresholds.
+  Identify why HPA isn’t scaling (e.g., metrics-server not running).
+  Simulate load using a tool like stress or a CPU-intensive loop to test autoscaling.
+
+🧪 Simulate Load (for testing HPA):
+kubectl run -i --tty load-generator --rm --image=busybox -- /bin/sh
+
+# Inside pod
+while true; do wget -q -O- http://myapp-service; done
+
+------------------------------------------------------------------
+https://learn.kodekloud.com/user/courses/kubernetes-autoscaling:
+------------------------------------------------------------------
+Autoscaling adjusts resources up during high traffic and down when it normalizes.
+
+1.Horizontal Pod Autoscaler
+2.Vertical Pod Atoscaler
+3.Cluster Proportional Autoscaler
+4.K8s Event driven Autoscaling (KEDA) scaling
+
+
+
 
 
 
