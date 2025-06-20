@@ -137,6 +137,51 @@ It works during the pod creation process, checking if the pod is managed by VPA.
 If the pod is managed by VPA, it modifies the pod's resource requests to reflect the recommended values provided by the Recommender.
 Purpose: Ensures that newly created or recreated pods start with the optimal resource requests from the very beginning.
 These three components (Recommender, Updater, and Admission Plugin) work together to provide dynamic resource allocation for Kubernetes pods, optimizing resource usage and improving cluster efficiency.
+---------------------------
+Introduction to Kubernetes Vertical Pod Autoscaler (VPA)
+----------------------------
+You have recently deployed a Flask application to your Kubernetes cluster. However, the Vertical Pod Autoscaler (VPA) vpa-updater-XXXX pod indicates that there may be an issue with the newly deployed flask-app pods.
+
+Inspect the logs of the vpa-updater-XXXX pod and observe the following message:
+Check the logs of the vpa-updater-XXXX pod to identify any potential issues with the flask-app deployment.
+
+When checking the logs, you see the following error message:
+pods_eviction_restriction.go:226] **too few replicas** for **ReplicaSet** default/**flask-app-b6c9c4f78**
+
+Problem Analysis:
+
+Flask application is running with only 1 replica pod.
+The Vertical Pod Autoscaler (VPA) needs to evict (remove) the existing pod to create a new one with updated resource settings.
+Kubernetes has a safety feature that prevents removing the last pod of a deployment to avoid service downtime.
+When you have only 1 replica and VPA tries to evict it, Kubernetes blocks this action with the error message: "too few replicas".
+VPA wants to optimize your pod's resources but cannot because Kubernetes is protecting your service availability.
+As a result, VPA cannot apply its resource recommendations, and application cannot benefit from automatic resource optimization.
+
+Approach to Resolve the Issue:
+1. Increase the replica count:
+kubectl scale deployment flask-app --replicas=2
+
+2. Verify the Deployment:
+kubectl get deployment flask-app -o wide
+
+Ensure that the DESIRED column shows the updated replica count, and the CURRENT column matches the desired number.
+
+3. Check the Pod Status:
+kubectl get pods -l app=flask-app
+
+Wait until all pods show Running status.
+You should see two pods (or more) in a Running state.
+
+4. Verify VPA operation:
+kubectl describe vpa flask-app
+
+This will show the current state of the VPA and any recommendations it has made. If it's working properly, you should see resource recommendations (for CPU and memory) in the output.
+
+With 2 replicas, Kubernetes can safely remove one pod while keeping your application running, allowing VPA to work properly.
+
+------------------------------------------------------------
+
+
 
 
 
