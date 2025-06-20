@@ -1,0 +1,73 @@
+KEDA (Kubernetes Event-driven Autoscaling) is an advanced and flexible autoscaling solution for Kubernetes that goes beyond the capabilities of the standard Horizontal Pod Autoscaler (HPA). 
+It's particularly useful for event-driven workloads, such as message queues, cron jobs, or cloud events.
+
+🚀 What is KEDA?
+KEDA is a Kubernetes-based autoscaler that can scale pods based on external metrics or events (e.g., message queue depth, CPU usage, Prometheus queries, custom metrics).
+
+🔹 Key Features:
+----------------
+| Feature                     | Description                                                                         |
+| --------------------------- | ----------------------------------------------------------------------------------- |
+| 🔄 Scales **to and from 0** | Unlike HPA, KEDA can **scale down to 0 pods**, saving resources during idle time.   |
+| 📥 Event-driven             | Reacts to **event sources** like RabbitMQ, Kafka, Azure Service Bus, SQS, etc.      |
+| 🔌 80+ scalers              | Supports many **built-in scalers** (Redis, MongoDB, Prometheus, etc.).              |
+| ⚙️ Works with HPA           | KEDA acts as an HPA **metrics provider** and manages scaling transparently.         |
+| 🔐 Secure                   | Uses **Kubernetes Secrets** to access secure credentials (e.g., cloud access keys). |
+
+
+🛠️ How It Works
+KEDA introduces two main components:
+1.ScaledObject – Defines how to scale a deployment based on an event source.
+2.Scaler – A plugin that connects to the external system and provides metric data.
+
+📦 Example: Scale a Deployment Based on Queue Length (e.g., RabbitMQ):
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: queue-scaler
+spec:
+  scaleTargetRef:
+    name: worker
+  minReplicaCount: 0
+  maxReplicaCount: 10
+  triggers:
+  - type: rabbitmq
+    metadata:
+      queueName: my-queue
+      hostFromEnv: RABBITMQ_HOST
+      queueLength: "100"
+
+This will scale the worker deployment from 0 to 10 pods based on whether the RabbitMQ queue my-queue has more than 100 messages.
+
+✨ KEDA vs HPA:
+----------------
+| Feature                   | HPA                                          | KEDA                                            |
+| ------------------------- | -------------------------------------------- | ----------------------------------------------- |
+| Metrics Source            | CPU, memory, custom metrics (via Prometheus) | 80+ sources (Kafka, Redis, AWS SQS, Cron, etc.) |
+| Scale to Zero             | ❌ No                                         | ✅ Yes                                           |
+| Event-driven              | ❌ No                                         | ✅ Yes                                           |
+| Easy external integration | ❌ Limited                                    | ✅ Rich                                          |
+
+🧪 Common Use Cases:
+--------------------
+Auto-scaling background jobs based on message queue length
+Scaling data processors for Kafka, SQS, Azure EventHub
+Scheduled jobs or cron-based autoscaling
+Dynamic scaling for Prometheus alerts, database queues, webhooks
+
+🧰 Commands
+Install KEDA using Helm:
+----------------------
+helm repo add kedacore https://kedacore.github.io/charts
+helm repo update
+helm install keda kedacore/keda --namespace keda --create-namespace
+
+🔐 Pro Tip for CKA + CNCF Focus:
+-------------------------------
+--> While KEDA is not part of the core CKA curriculum, it's increasingly relevant for cloud-native and event-driven architectures.
+--> Understanding it shows you're aware of advanced autoscaling strategies in production environments.
+
+
+
+
+
