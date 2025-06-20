@@ -180,7 +180,8 @@ This will show the current state of the VPA and any recommendations it has made.
 With 2 replicas, Kubernetes can safely remove one pod while keeping your application running, allowing VPA to work properly.
 
 ------------------------------------------------------------
-
+CPA -linear:
+-----------
 The "preventSinglePointFailure": true setting ensures that pods are distributed across different nodes, preventing multiple pods from running on the same node. 
 This reduces the risk of all pods failing if a single node goes down, improving reliability.
 
