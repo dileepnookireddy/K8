@@ -181,6 +181,20 @@ With 2 replicas, Kubernetes can safely remove one pod while keeping your applica
 
 ------------------------------------------------------------
 
+The "preventSinglePointFailure": true setting ensures that pods are distributed across different nodes, preventing multiple pods from running on the same node. 
+This reduces the risk of all pods failing if a single node goes down, improving reliability.
+
+Note that PreventSinglePointFailure works during the scheduling of new pods.
+
+linear:
+----
+{
+  "nodesPerReplica": 1,
+  "preventSinglePointFailure": true
+}
+
+-----------------------------------------------------------
+
 
 
 
