@@ -161,11 +161,11 @@ Helm, the package manager for Kubernetes, consists of three primary components:
 🧱 1. Helm CLI (helm):
 ---------------------
 This is the command-line tool that developers and operators use to:
-Install charts (helm install)
-Upgrade releases (helm upgrade)
-Rollback (helm rollback)
-Template chart output (helm template)
-Interact with chart repositories
+  Install charts (helm install)
+  Upgrade releases (helm upgrade)
+  Rollback (helm rollback)
+  Template chart output (helm template)
+  Interact with chart repositories
 
 👉 It interacts with the Kubernetes API server using your current kubeconfig context.
 
