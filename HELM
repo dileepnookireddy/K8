@@ -202,6 +202,23 @@ Optional but Related:
 | **Tiller (legacy)**  | Helm v2 server-side component (deprecated in Helm v3+)                    |
 
 -----------------------------------------------------------------------------------------------------------------
+helm lint is a static analysis tool that checks a Helm chart for syntax errors, structural issues, and common mistakes before deployment.
+helm lint <chart-directory>
+for example :   helm lint mychart/  
 
+🔍 What It Checks:
+| Check Type          | Description                                                           |
+| ------------------- | --------------------------------------------------------------------- |
+| ✅ Chart structure   | Validates presence of `Chart.yaml`, `values.yaml`, `templates/`, etc. |
+| ✅ YAML syntax       | Parses templates to check for malformed YAML                          |
+| ✅ Missing values    | Flags undefined variables in templates                                |
+| ✅ Deprecated fields | Warns about deprecated API versions                                   |
+| ✅ Template logic    | Catches logic errors (e.g., invalid `if` conditions)                  |
 
+🧠 Best Practices:
+    Always run helm lint before installing or upgrading a chart.
+    Use it in CI/CD pipelines to catch errors early.
+    Combine with helm template to verify rendered output:
+         helm template mychart/ | kubectl apply -f -
+------------------------------------------------------------------------------------------------------------
 
