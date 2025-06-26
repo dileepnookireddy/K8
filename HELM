@@ -152,4 +152,56 @@ Flags:
 Use "helm [command] --help" for more information about a command.
 
 controlplane ~ ➜  
+-------------------------------------------------------
+Tiller was removed from helm2 vs helm3 (due to presence of Role Based Access Controls &  Custom Resource Definitions in helm3)
+------------------------------------------------------
+HELM Components:
+---------------
+Helm, the package manager for Kubernetes, consists of three primary components:
+🧱 1. Helm CLI (helm):
+---------------------
+This is the command-line tool that developers and operators use to:
+Install charts (helm install)
+Upgrade releases (helm upgrade)
+Rollback (helm rollback)
+Template chart output (helm template)
+Interact with chart repositories
+
+👉 It interacts with the Kubernetes API server using your current kubeconfig context.
+
+📦 2. Chart
+A chart is a Helm package, which contains all the resource definitions (YAML templates) required to run an application or service in Kubernetes.
+
+Chart Structure:
+mychart/
+├── Chart.yaml          # Metadata: name, version, dependencies
+├── values.yaml         # Default values (user-configurable)
+├── templates/          # YAML templates (Deployment, Service, etc.)
+├── charts/             # Subcharts (dependencies)
+└── README.md
+
+Helm renders the templates in templates/ using the values in values.yaml (or overrides provided by the user).
+
+💿 3. Release
+A release is a running instance of a chart in a Kubernetes cluster.
+  Each time you run helm install, Helm creates a release.
+  Releases are tracked in-cluster as Kubernetes Secrets or ConfigMaps (in the kube-system namespace by default).
+  Releases have a unique name, and can be upgraded, rolled back, or uninstalled.
+
+🧠 Summary Table:
+| Component    | Description                                           |
+| ------------ | ----------------------------------------------------- |
+| **Helm CLI** | Interface for managing charts and releases            |
+| **Chart**    | Package containing Kubernetes templates               |
+| **Release**  | A deployed, named instance of a chart in your cluster |
+
+Optional but Related:
+| Component            | Purpose                                                                   |
+| -------------------- | ------------------------------------------------------------------------- |
+| **Chart Repository** | Remote server hosting versioned Helm charts (e.g., Bitnami, Artifact Hub) |
+| **Tiller (legacy)**  | Helm v2 server-side component (deprecated in Helm v3+)                    |
+
+-----------------------------------------------------------------------------------------------------------------
+
+
 
