@@ -1,0 +1,66 @@
+https://github.com/flannel-io/flannel
+
+🕸️ Flannel — Kubernetes CNI Plugin Overview
+Flannel is a simple and easy-to-use Container Network Interface (CNI) plugin for Kubernetes that provides pod-to-pod networking across nodes.
+
+🚀 What Does Flannel Do?
+In Kubernetes, each pod needs a unique IP address and must be able to communicate with other pods across nodes. Flannel creates an overlay network to enable this.
+It allocates a subnet per node, and uses a backend (e.g., VXLAN, host-gw) to route traffic between pods on different nodes.
+
+🔧 How Flannel Works:
+----------------------
+Example:
+  Cluster CIDR: 10.244.0.0/16
+  Node A gets: 10.244.1.0/24
+  Node B gets: 10.244.2.0/24
+
+When a pod on Node A talks to a pod on Node B, Flannel:
+  Encapsulates traffic (if VXLAN is used).
+  Decapsulates on the destination node.
+  Delivers traffic directly to the target pod.
+
+🔌 Flannel Backends (Modes):
+----------------------------
+| Backend                 | Description                                                                       |
+| ----------------------- | --------------------------------------------------------------------------------- |
+| `vxlan`                 | Encapsulates packets in UDP — default & most common                               |
+| `host-gw`               | Routes traffic using host routes — fast, no encapsulation (requires L2 adjacency) |
+| `aws-vpc`, `gce`, `udp` | Other cloud- or platform-specific options                                         |
+
+🛠️ Typical Flannel Setup:
+-------------------------
+  Runs as a DaemonSet on every node.
+  Configuration stored in etcd or passed via Kubernetes ConfigMap.
+  Uses interface cni0 to route pod traffic internally.
+
+---> kubectl get pods -n kube-system -l app=flannel
+
+📦 Flannel DaemonSet Example (snippet):
+--------------------------------------
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: kube-flannel-ds
+  namespace: kube-system
+spec:
+  template:
+    spec:
+      containers:
+      - name: kube-flannel
+        image: quay.io/coreos/flannel:v0.22.0
+
+
+⚠️ Common Issues:
+-----------------
+| Problem                     | Cause                                           |
+| --------------------------- | ----------------------------------------------- |
+| No pod-to-pod communication | Flannel not running or misconfigured            |
+| IP conflict or overlap      | ClusterCIDR not matching Flannel config         |
+| Host-gw mode fails          | Nodes not in the same subnet or routed properly |
+
+🧠 When to Use Flannel:
+----------------------
+✅ Simple clusters or on-prem environments
+✅ Lightweight CNI with minimal configuration
+❌ Not ideal for advanced networking needs (e.g., policy enforcement, service mesh)
+
