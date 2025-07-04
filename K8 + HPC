@@ -1,0 +1,84 @@
+Combining Kubernetes (K8s) with High Performance Computing (HPC) is an emerging and powerful architecture that brings the flexibility and 
+automation of Kubernetes to the traditionally static and batch-oriented world of HPC.
+
+ Why Use Kubernetes for HPC?
+| Traditional HPC                        | Kubernetes-enhanced HPC                              |
+| -------------------------------------- | ---------------------------------------------------- |
+| Static clusters, manual job schedulers | Dynamic resource allocation, containerized workloads |
+| Complex job queueing (Slurm, PBS)      | Native or integrated job orchestration               |
+| VM/metal-based deployments             | Container-based, lightweight, reproducible           |
+| Siloed workloads                       | Multi-tenant, isolated namespaces and RBAC           |
+
+🧠 Benefits of Using Kubernetes for HPC Workloads
+✅ Containerized Environments
+  Isolate dependencies using Docker/Singularity containers.
+  No more "dependency hell" between different workloads.
+
+✅ Elastic Scheduling
+  Scale compute pods up/down dynamically with Cluster Autoscaler.
+  Integrate with cloud bursting (AWS/GCP/Azure) for capacity overflow.
+
+✅ Multi-Tenancy and Fair Usage
+  Use namespaces, ResourceQuotas, and LimitRanges for fairness.
+  Secure user isolation via RBAC and PodSecurity Standards.
+
+✅ Observability
+  Use Prometheus, Grafana, and Loki for real-time monitoring and alerting.
+  Profile HPC jobs with built-in tracing tools.
+
+🔧 Common HPC Workloads on Kubernetes:
+-------------------------------------
+| Workload Type    | Examples                         | K8s Tools                                                    |
+| ---------------- | -------------------------------- | ------------------------------------------------------------ |
+| MPI-based        | OpenMPI, MPICH for parallel jobs | [KubeMPI](https://github.com/kubeflow/mpi-operator), Volcano |
+| Machine Learning | TensorFlow, PyTorch              | Kubeflow, KubeFlow Pipelines                                 |
+| Batch Jobs       | Genomic sequencing, simulations  | Volcano, Kueue, Argo Workflows                               |
+| Rendering/CAE    | Blender, ANSYS, COMSOL           | GPU node pools, NVIDIA device plugin                         |
+
+
+🔥 Key Tools for K8s + HPC
+🔹 MPI Operator (Kubeflow)
+Allows submission and management of distributed MPI workloads on K8s.
+
+🔹 Volcano
+Batch job scheduler purpose-built for HPC, supports queueing, priorities, and gang scheduling.
+
+🔹 Kueue
+Kubernetes-native job queue controller that integrates with batch jobs and workflows.
+
+🔹 NVIDIA GPU Operator
+Manages NVIDIA drivers, CUDA toolkit, and GPU monitoring tools in Kubernetes.
+
+⚠️ Challenges in Kubernetes-HPC Integration:
+------------------------------------------
+| Challenge                                     | Mitigation                                        |
+| --------------------------------------------- | ------------------------------------------------- |
+| **Low-latency networking** (e.g., InfiniBand) | Use SR-IOV & RDMA-enabled plugins                 |
+| **Job scheduling complexities**               | Integrate Volcano or Slurm-connector              |
+| **File system access** (e.g., Lustre, GPFS)   | Mount HPC FS via CSI drivers                      |
+| **MPI process management**                    | Use MPI Operator with init containers & sidecars  |
+| **GPU/TPU device exposure**                   | Use device plugins and runtimeClass configuration |
+
+📦 Sample Architecture:
+----------------------
++-------------------------------------------------------------+
+|                  Kubernetes HPC Platform                    |
+|                                                             |
+| +-------------+   +------------+   +----------------------+ |
+| | MPI Operator|   | Volcano    |   | GPU Operator         | |
+| +-------------+   +------------+   +----------------------+ |
+|        |                |                   |              |
+|     MPI Jobs        Volcano Jobs       GPU-accelerated Pods|
+|        |                |                   |              |
+|        +----------------+-------------------+              |
+|                       Kubernetes Cluster                   |
+|-------------------------------------------------------------|
+|    Compute Nodes      GPU Nodes       Storage Mounts       |
+|-------------------------------------------------------------|
+
+✅ When to Use K8s for HPC?
+  🔬 Scientific computing, where jobs are containerizable and reproducible.
+  🧬 Bioinformatics pipelines that run massive parallel analysis jobs.
+  🧠 AI/ML training workloads that leverage GPUs and require orchestration.
+  ☁️ Cloud bursting HPC clusters with Kubernetes in AWS/GCP.
+
