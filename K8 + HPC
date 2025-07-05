@@ -1,3 +1,7 @@
+The main difference between an HPC workload and the type of application for which Kubernetes was built is that, 
+while HPC workloads run to complete a complex task in the shortest possible time (even if this is a long time), 
+Kubernetes is optimized for continuously running applications
+
 Combining Kubernetes (K8s) with High Performance Computing (HPC) is an emerging and powerful architecture that brings the flexibility and 
 automation of Kubernetes to the traditionally static and batch-oriented world of HPC.
 
